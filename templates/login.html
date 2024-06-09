@@ -19,6 +19,7 @@
             margin: 0;
             padding: 0;
         }
+
         .header {
             background-color: #fff;
             border-bottom: 1px solid #ddd;
@@ -27,46 +28,57 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .header img {
-            height: 50px; /* Adjust the height as needed */
+            height: 50px;
+            /* Adjust the height as needed */
         }
+
         .header .nav {
             display: flex;
             align-items: center;
         }
+
         .header .nav a {
             margin: 0 15px;
             text-decoration: none;
             color: #000;
             font-weight: bold;
         }
+
         .header .search {
             flex-grow: 1;
             margin: 0 20px;
         }
+
         .header .search input {
             width: 100%;
             padding: 5px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
         .header .contact {
             color: #f26522;
             font-weight: bold;
         }
+
         .banner {
             background-color: #fdfdfd;
             padding: 40px 20px;
             text-align: center;
         }
+
         .banner h1 {
             font-size: 36px;
             color: #f26522;
         }
+
         .banner p {
             font-size: 18px;
             color: #555;
         }
+
         .banner .shop-now {
             display: inline-block;
             margin-top: 20px;
@@ -76,6 +88,7 @@
             text-decoration: none;
             border-radius: 5px;
         }
+
         .banner .shop-now:hover {
             background-color: #e5541a;
         }
@@ -110,8 +123,10 @@
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
-            border: none; /* Ensure there is no border */
+            border: none;
+            /* Ensure there is no border */
         }
+
         .login-form .shop-now:hover {
             background-color: #e5541a;
         }
@@ -155,10 +170,12 @@
         <div class="nav">
             {% if logged_in %}
             <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                class="bi bi-cart-fill" viewBox="0 0 16 16">
-                <path
-                    d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
-            </svg></a>
+                    class="bi bi-cart-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                </svg></a>
+            <a href="/orders">Orders</a>
+            <a href="/manageorder">Manage Orders</a>
             <a href="/" onclick="logout()">Logout</a>
             {% else %}
             <a href="/register">Register</a>

@@ -278,6 +278,7 @@
         <div class="nav">
             {% if is_admin %}
             <a href="/manageproduct">Manage Product</a>
+            <a href="/manageorder">Manage Orders</a>
             {% endif %}
             {% if logged_in %}
             <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
@@ -285,6 +286,7 @@
                     <path
                         d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                 </svg></a>
+            <a href="/orders">Orders</a>
             <a href="/logout">Logout</a>
             {% else %}
             <a href="/register">Register</a>
@@ -296,35 +298,58 @@
         <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
             <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
+                    <div class="carousel-item active position-relative">
                         <img src="/static/product_pics/{{info_product.image}}" width="560" height="315"
                             style="object-fit: contain;" class="d-block w-100" alt="Slide 1">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel"
+                            data-bs-slide="prev">
+                            <span aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange"
+                                    class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="m3.86 7.247 5.482-4.796c.646-.566 1.658-.106 1.658.753v9.298a1 1 0 0 1-1.659.753l-5.48-4.796a1 1 0 0 1 0-1.506z" />
+                                </svg>
+                            </span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel"
+                            data-bs-slide="next">
+                            <span aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange"
+                                    class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                                </svg>
+                            </span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item position-relative">
                         {{info_product.link | safe}}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel"
+                            data-bs-slide="prev">
+                            <span aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange"
+                                    class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="m3.86 7.247 5.482-4.796c.646-.566 1.658-.106 1.658.753v9.298a1 1 0 0 1-1.659.753l-5.48-4.796a1 1 0 0 1 0-1.506z" />
+                                </svg>
+                            </span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel"
+                            data-bs-slide="next">
+                            <span aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange"
+                                    class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                                </svg>
+                            </span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                    <span aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange"
-                            class="bi bi-caret-left-fill" viewBox="0 0 16 16">
-                            <path
-                                d="m3.86 7.247 5.482-4.796c.646-.566 1.658-.106 1.658.753v9.298a1 1 0 0 1-1.659.753l-5.48-4.796a1 1 0 0 1 0-1.506z" />
-                        </svg>
-                    </span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                    <span aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange"
-                            class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                            <path
-                                d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-                        </svg>
-                    </span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-
             </div>
             <div class="">
                 <div class="flex flex-col gap-1">
@@ -353,7 +378,7 @@
                                 <input type="hidden" name="product_price" value="{{info_product.product_price}}">
                                 <input type="hidden" name="product_image" value="{{info_product.image}}">
                                 <input type="hidden" name="qty" value="1">
-                                <button type="submit" class="shop-now"><span>ADD TO CART</span></button>
+                                <button type="submit" class="shop-now"><span>Tambahkan Ke Keranjang</span></button>
                             </form>
                         </div>
                     </div>
@@ -361,8 +386,9 @@
                 <div class="mt-2 md:mt-3">
                     <div class="product-description">
                         <div class="ck-content">
+                            <h4><b>Deskripsi Produk</b></h4>
                             <div>
-                                <p>{{info_product.description}}</p>
+                                <p>{{info_product.description | replace('\n', '<br>') | safe}}</p>
                             </div>
                         </div>
                     </div>

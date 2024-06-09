@@ -50,7 +50,9 @@ def index():
         if user_info:
             is_admin = user_info.get("role") == "admin"
 
-    return render_template("index.html", user_info=user_info, is_admin=is_admin, logged_in=logged_in)
+    product_list = db.product.find()
+
+    return render_template("index.html", user_info=user_info, is_admin=is_admin, logged_in=logged_in, product_list=product_list)
 
 @app.route('/shop')
 def shop():
@@ -140,6 +142,38 @@ def manageproduct():
         return redirect(url_for("index"))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("index"))
+    
+@app.route('/mark_as_best_product/<product_id>', methods=['POST'])
+def mark_as_best_product(product_id):
+    try:
+        # Mark the product as best product
+        result = db.product.update_one(
+            {'_id': ObjectId(product_id)},
+            {'$set': {'is_best_product': True}}
+        )
+        
+        if result.modified_count > 0:
+            return jsonify({'result': 'success', 'msg': 'Product marked as Best Product!'})
+        else:
+            return jsonify({'result': 'failure', 'msg': 'Product not found or already marked as Best Product.'})
+    except Exception as e:
+        return jsonify({'result': 'error', 'msg': str(e)})
+
+@app.route('/remove_best_product/<product_id>', methods=['POST'])
+def remove_best_product(product_id):
+    try:
+        # Remove the best product status
+        result = db.product.update_one(
+            {'_id': ObjectId(product_id)},
+            {'$unset': {'is_best_product': ""}}
+        )
+        
+        if result.modified_count > 0:
+            return jsonify({'result': 'success', 'msg': 'Best Product status removed!'})
+        else:
+            return jsonify({'result': 'failure', 'msg': 'Product not found or not marked as Best Product.'})
+    except Exception as e:
+        return jsonify({'result': 'error', 'msg': str(e)})
     
 @app.route('/addproduct', methods = ['GET'])
 def addproduct():
@@ -370,6 +404,168 @@ def checkout():
             cart_items = list(db.cart.find({"user_id": user_info["_id"]}))
             total_checkout = sum(item["product_price"] * item["quantity"] for item in cart_items)
     return render_template("checkout.html", user_info=user_info, is_admin=is_admin, logged_in=logged_in, cart_items=cart_items, total_checkout=total_checkout)
+
+@app.route('/place_order', methods=['POST'])
+def place_order():
+    from datetime import datetime
+    token_receive = request.cookies.get("mytoken")
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"username": payload["id"]})
+        if user_info:
+            # Get the form data
+            full_name = request.form.get("full-name")
+            telephone = request.form.get("telephone")
+            address = request.form.get("address")
+            city = request.form.get("city")
+            country = request.form.get("country")
+            postcode = request.form.get("postcode")
+            shipping_method = request.form.get("shipping-method")
+            card_name = request.form.get("card-name")
+            card_number = request.form.get("card-number")
+            expiry_date = request.form.get("expiry-date")
+            cvv = request.form.get("cvv")
+
+            # Get the cart items
+            cart_items = list(db.cart.find({"user_id": user_info["_id"]}))
+            total_checkout = sum(item["product_price"] * item["quantity"] for item in cart_items)
+
+            # Add shipping cost
+            if shipping_method == "Regular":
+                total_checkout += 50000
+            elif shipping_method == "Express":
+                total_checkout += 100000
+
+            today = datetime.now()
+            mytime = today.strftime("%Y-%m-%d %H-%M-%S")
+
+
+            # Create order document
+            order = {
+                "user_id": user_info["_id"],
+                "full_name": full_name,
+                "telephone": telephone,
+                "address": address,
+                "city": city,
+                "country": country,
+                "postcode": postcode,
+                "shipping_method": shipping_method,
+                "payment_info": {
+                    "card_name": card_name,
+                    "card_number": card_number,
+                    "expiry_date": expiry_date,
+                    "cvv": cvv
+                },
+                "items": cart_items,
+                "total_checkout": total_checkout,
+                "order_date": mytime,
+                "status": "In Progress"
+            }
+
+            # Insert the order into the database
+            db.orders.insert_one(order)
+
+            # Clear the cart
+            db.cart.delete_many({"user_id": user_info["_id"]})
+
+            # Update the product stock
+            for item in cart_items:
+                db.product.update_one(
+                    {"_id": ObjectId(item["product_id"])},
+                    {"$inc": {"product_stock": -item["quantity"]}}
+                )
+
+            return redirect(url_for("orders"))
+        else:
+            return redirect(url_for("login"))
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("login"))
+    
+@app.route('/orders')
+def orders():
+    logged_in = is_logged_in()
+    user_info = None
+    is_admin = False
+    orders = []
+
+    if logged_in:
+        token_receive = request.cookies.get("mytoken")
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"username": payload["id"]})
+        if user_info:
+            is_admin = user_info.get("role") == "admin"
+            # Fetch the orders for the logged-in user
+            orders_cursor = db.orders.find({"user_id": user_info["_id"]})
+            orders = list(orders_cursor)  # Convert cursor to a list
+    return render_template("orders.html", user_info=user_info, is_admin=is_admin, logged_in=logged_in, orders=orders)
+
+@app.route('/manageorder', methods=['GET'])
+def manage_order_get():
+    token_receive = request.cookies.get("mytoken")
+    try:
+        if token_receive:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+            user_info = db.user.find_one({"username": payload["id"]})
+            if user_info:
+                is_admin = user_info.get("role") == "admin"
+                logged_in = True
+                role = user_info.get("role")
+            else:
+                is_admin = False
+                logged_in = False
+        else:
+            user_info = None
+            is_admin = False
+            logged_in = False
+
+        if not logged_in:
+            return redirect(url_for("index"))
+
+        if role not in ["admin"]:
+            return redirect(url_for("index"))
+
+        orders = list(db.orders.find())
+        return render_template('manage_order.html', orders=orders, is_admin=is_admin, logged_in=logged_in)
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("login"))
+    
+@app.route('/update_order_status/<order_id>', methods=['PUT'])
+def update_order_status(order_id):
+    token_receive = request.cookies.get("mytoken")
+    try:
+        if token_receive:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+            user_info = db.user.find_one({"username": payload["id"]})
+            if user_info:
+                is_admin = user_info.get("role") == "admin"
+                logged_in = True
+                role = user_info.get("role")
+            else:
+                is_admin = False
+                logged_in = False
+        else:
+            user_info = None
+            is_admin = False
+            logged_in = False
+
+        if not logged_in:
+            return jsonify({"result": "failure", "msg": "User not logged in"}), 403
+
+        if role not in ["admin"]:
+            return jsonify({"result": "failure", "msg": "User not authorized"}), 403
+
+        status_give = request.form.get("status_give")
+        if ObjectId.is_valid(order_id):
+            db.orders.update_one(
+                {"_id": ObjectId(order_id)},
+                {"$set": {"status": status_give}}
+            )
+            return jsonify({"result": "success", "msg": "Order status updated"})
+        else:
+            return jsonify({"result": "failure", "msg": "Invalid order ID"}), 400
+
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("login"))
 
 @app.route('/register')
 def register():

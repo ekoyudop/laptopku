@@ -4,15 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laptopku | Shop</title>
+    <title>Laptopku | Orders</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,7 +28,6 @@
 
         .header img {
             height: 50px;
-            /* Adjust the height as needed */
         }
 
         .header .nav {
@@ -63,85 +59,54 @@
             font-weight: bold;
         }
 
-        .banner {
-            background-color: #fdfdfd;
-            padding: 40px 20px;
-            text-align: center;
+        .container {
+            width: 80%;
+            margin: auto;
+            padding-top: 20px;
         }
 
-        .banner h1 {
-            font-size: 36px;
-            color: #f26522;
+        .order {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
         }
 
-        .banner p {
-            font-size: 18px;
-            color: #555;
+        .order h4 {
+            margin-top: 0;
         }
 
-        .banner .shop-now {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #f26522;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
+        .order-items {
+            margin-top: 10px;
         }
 
-        .banner .shop-now:hover {
-            background-color: #e5541a;
-        }
-
-        .shop-now {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #f26522;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .shop-now:hover {
-            background-color: #e5541a;
-        }
-
-        .product-card {
-            border: 2px solid #ccc;
-            /* Change the color and width as needed */
-            border-radius: 5px;
-            text-align: left;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .product-card:hover {
-            border-color: #f26522;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-image-container {
+        .order-item {
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 200px; /* Set the height to 350px */
-            overflow: hidden; /* Ensure any overflow is hidden */
+            margin-bottom: 10px;
         }
 
-        .product-image-container img {
-            width: auto;
-            height: 100%;
-            object-fit: cover;
+        .order-item img {
+            width: 100px;
+            margin-right: 20px;
         }
 
-        .product-card h5 {
-            font-size: 1.2rem;
-            font-weight: bold;
+        .order-item p {
+            margin: 0;
         }
 
-        .product-card p {
-            font-size: 1rem;
-            color: #666;
+        .order-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .order p {
+            margin: 2px 0;
         }
     </style>
     <script>
@@ -149,10 +114,6 @@
             $.removeCookie('mytoken');
             alert('You have been logged out!')
             window.location.href = '/'
-        }
-
-        function detail(id) {
-            window.location.href = '/detail/' + id;
         }
     </script>
 </head>
@@ -184,34 +145,39 @@
                         d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                 </svg></a>
             <a href="/orders">Orders</a>
-            <a href="/" onclick="logout()">Logout</a>
+            <a href="/logout">Logout</a>
             {% else %}
             <a href="/register">Register</a>
             <a href="/login">Login</a>
             {% endif %}
         </div>
     </div>
-    <div class="container mt-5 mb-5">
-        <div class="row g-4">
-            {% for product in product_list %}
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="card product-card">
-                    <a href="/detail/{{ product._id }}">
-                        <div class="product-image-container">
-                            <img src="/static/product_pics/{{ product.image }}" alt="{{ product.product_name }}">
-                        </div>
-                    </a>
-                    <div class="card-body">
-                        <a href="/detail/{{ product._id }}" class="card-title"
-                            style="text-decoration: none; font-weight: bold;">
-                            <h5>{{ product.product_name }}</h5>
-                        </a>
-                        <p class="card-text">Rp{{ product.product_price }}</p>
+
+    <div class="container">
+        <h2>Your Orders</h2>
+        {% for order in orders | reverse %}
+        <div class="order">
+            <h4>Order placed on: {{ order['order_date']}}</h4>
+            <p><strong>Full Name:</strong> {{ order['full_name'] }}</p>
+            <p><strong>Telephone:</strong> {{ order['telephone'] }}</p>
+            <p><strong>Shipping Address:</strong> {{ order['address'] }}, {{ order['city'] }}, {{ order['country'] }}, {{ order['postcode'] }}</p>
+            <p><strong>Total Price:</strong> Rp{{ order['total_checkout'] }}</p>
+            <p><strong>Shipping Method:</strong> {{ order['shipping_method'] }}</p>
+            <div class="order-status">{{ order['status'] }}</div>
+            <div class="order-items">
+                {% for item in order['items'] %}
+                <div class="order-item">
+                    <img src="/static/product_pics/{{ item['product_image'] }}" alt="{{ item['product_name'] }}">
+                    <div>
+                        <p><strong>{{ item['product_name'] }}</strong></p>
+                        <p>{{ item['quantity'] }} x Rp{{ item['product_price'] }}</p>
+                        <p>Total: Rp{{ item['product_price'] * item['quantity'] }}</p>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
 </body>
 

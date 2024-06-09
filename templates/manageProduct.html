@@ -127,6 +127,32 @@
                 },
             });
         }
+
+        function mark_as_best_product(id_product) {
+            $.ajax({
+                type: "POST",
+                url: "/mark_as_best_product/" + id_product,
+                success: function (response) {
+                    if (response['result'] === 'success') {
+                        alert("Success! " + response['msg']);
+                        window.location.href = '/manageproduct';
+                    }
+                },
+            });
+        }
+
+        function remove_best_product(id_product) {
+            $.ajax({
+                type: "POST",
+                url: "/remove_best_product/" + id_product,
+                success: function (response) {
+                    if (response['result'] === 'success') {
+                        alert("Success! " + response['msg']);
+                        window.location.href = '/manageproduct';
+                    }
+                },
+            });
+        }
     </script>
 </head>
 
@@ -148,13 +174,15 @@
         <div class="nav">
             {% if is_admin %}
             <a href="/manageproduct">Manage Product</a>
+            <a href="/manageorder">Manage Orders</a>
             {% endif %}
             {% if logged_in %}
             <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                class="bi bi-cart-fill" viewBox="0 0 16 16">
-                <path
-                    d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
-            </svg></a>
+                    class="bi bi-cart-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                </svg></a>
+            <a href="/orders">Orders</a>
             <a href="/" onclick="logout()">Logout</a>
             {% else %}
             <a href="/register">Register</a>
@@ -166,20 +194,20 @@
         <div class="col" id="content">
             <div class="d-flex mb-3">
                 <div class="me-auto p-2 mt-2">
-                    <h2>Product List</h2>
+                    <h2>Daftar Produk</h2>
                 </div>
                 <div class="p-2 mt-2">
-                    <a href="/addproduct"><button type="button" class="shop-now"> Add Product
+                    <a href="/addproduct"><button type="button" class="shop-now"> Tambah Product
                         </button></a>
                 </div>
             </div>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Price</th>
+                        <th>Nama</th>
+                        <th>Harga</th>
                         <th>Stock</th>
-                        <th>Description</th>
+                        <th>Deskrispi</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -202,6 +230,17 @@
                                     <path
                                         d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                                 </svg></button>
+                            {% if not product.is_best_product %}
+                            <button onclick="mark_as_best_product('{{product._id}}')" class="btn btn-warning"
+                                id="best-product">
+                                Set Best
+                            </button>
+                            {% else %}
+                            <button onclick="remove_best_product('{{product._id}}')" class="btn btn-secondary"
+                                id="remove-best-product">
+                                Remove Best
+                            </button>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

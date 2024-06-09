@@ -106,6 +106,43 @@
         .shop-now:hover {
             background-color: #e5541a;
         }
+
+        .product-card {
+            border: 2px solid #ccc;
+            /* Change the color and width as needed */
+            border-radius: 5px;
+            text-align: left;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            border-color: #f26522;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px; /* Set the height to 350px */
+            overflow: hidden; /* Ensure any overflow is hidden */
+        }
+
+        .product-image-container img {
+            width: auto;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-card h5 {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .product-card p {
+            font-size: 1rem;
+            color: #666;
+        }
     </style>
     <script>
         function logout() {
@@ -134,6 +171,7 @@
         <div class="nav">
             {% if is_admin %}
             <a href="/manageproduct">Manage Product</a>
+            <a href="/manageorder">Manage Orders</a>
             {% endif %}
             {% if logged_in %}
             <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
@@ -141,6 +179,7 @@
                     <path
                         d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                 </svg></a>
+            <a href="/orders">Orders</a>
             <a href="/" onclick="logout()">Logout</a>
             {% else %}
             <a href="/register">Register</a>
@@ -156,15 +195,27 @@
             <a href="/shop" class="shop-now" id="button"><b>Mulai Belanja</b></a>
         </div>
     </div>
-
-    <div class="row align-items-md-stretch">
-        <div class="col-md-6">
-            <div class="h-100 p-5 text-bg-dark rounded-3">
-                <h2>Change the background</h2>
-                <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look.
-                    Then, mix and match with additional component themes and more.</p>
-                <button class="btn btn-outline-light" type="button">Example button</button>
+    <div class="container mt-5 mb-5">
+        <h4><b>Produk Terbaik</b></h4>
+        <div class="row g-4">
+            {% for product in product_list if product.is_best_product %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card product-card">
+                    <a href="/detail/{{ product._id }}">
+                        <div class="product-image-container">
+                            <img src="/static/product_pics/{{ product.image }}" alt="{{ product.product_name }}">
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <a href="/detail/{{ product._id }}" class="card-title"
+                            style="text-decoration: none; font-weight: bold;">
+                            <h5>{{ product.product_name }}</h5>
+                        </a>
+                        <p class="card-text">Rp{{ product.product_price }}</p>
+                    </div>
+                </div>
             </div>
+            {% endfor %}
         </div>
     </div>
 </body>
