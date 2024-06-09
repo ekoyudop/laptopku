@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laptopku | Home</title>
+    <title>Laptopku | Keranjang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -179,15 +179,15 @@
         </div>
         <div class="search d-flex align-items-center">
             <form class="d-flex" action="/search" method="GET">
-                <input class="form-control me-2" type="search" placeholder="Search for products..." aria-label="Search"
+                <input class="form-control me-2" type="search" placeholder="Cari Produk..." aria-label="Search"
                     name="q">
                 <button class="btn btn-outline-secondary" type="submit">Search</button>
             </form>
         </div>
         <div class="nav">
             {% if is_admin %}
-            <a href="/manageproduct">Manage Product</a>
-            <a href="/manageorder">Manage Orders</a>
+            <a href="/manageproduct">Kelola Produk</a>
+            <a href="/manageorder">Kelola Orders</a>
             {% endif %}
             {% if logged_in %}
             <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
@@ -204,14 +204,14 @@
         </div>
     </div>
     <div class="container mt-5">
-        <h2>Your Cart</h2>
+        <h2>Keranjang Kamu</h2>
         <table class="cart-table">
             <thead>
                 <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
+                    <th>Gambar</th>
+                    <th>Nama</th>
+                    <th>Harg</th>
+                    <th>Jumlah</th>
                     <th>Total</th>
                     <th>Remove</th>
                 </tr>
@@ -236,10 +236,10 @@
             </tbody>
         </table>
         <br>
-        <h4>Total Price: Rp{{ total_payment }}</h4>
+        <h4>Total Harga: Rp{{ total_payment }}</h4>
         <div class="cart-actions">
-            <a href="/shop" class="shop-now" id="button">Continue Shopping</a>
-            <a href="/checkout" class="shop-now" id="button">Proceed to Checkout</a>
+            <a href="/shop" class="shop-now" id="button">Lanjut Belanja</a>
+            <a href="/checkout" class="shop-now" id="button">Lanjut Checkout</a>
         </div>
     </div>
 </body>

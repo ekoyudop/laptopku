@@ -128,15 +128,15 @@
         </div>
         <div class="search d-flex align-items-center">
             <form class="d-flex" action="/search" method="GET">
-                <input class="form-control me-2" type="search" placeholder="Search for products..." aria-label="Search"
+                <input class="form-control me-2" type="search" placeholder="Cari Produk..." aria-label="Search"
                     name="q">
                 <button class="btn btn-outline-secondary" type="submit">Search</button>
             </form>
         </div>
         <div class="nav">
             {% if is_admin %}
-            <a href="/manageproduct">Manage Product</a>
-            <a href="/manageorder">Manage Orders</a>
+            <a href="/manageproduct">Kelola Produk</a>
+            <a href="/manageorder">Kelola Orders</a>
             {% endif %}
             {% if logged_in %}
             <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
