@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptopku | Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header img {
+            height: 50px;
+            /* Adjust the height as needed */
+        }
+
+        .header .nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .header .search {
+            flex-grow: 1;
+            margin: 0 20px;
+        }
+
+        .header .search input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .header .contact {
+            color: #f26522;
+            font-weight: bold;
+        }
+
+        .banner {
+            background-color: #fdfdfd;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .banner h1 {
+            font-size: 36px;
+            color: #f26522;
+        }
+
+        .banner p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .banner .shop-now {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #f26522;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .banner .shop-now:hover {
+            background-color: #e5541a;
+        }
+
+        .shop-now {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #f26522;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .shop-now:hover {
+            background-color: #e5541a;
+        }
+    </style>
+    <script>
+        function logout() {
+            $.removeCookie('mytoken');
+            alert('You have been logged out!')
+            window.location.href = '/'
+        }
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <img src="/static/logo.png" alt="Laptopku Logo">
+        <div class="nav w-20">
+            <a href="/">Home</a>
+            <a href="/shop">Shop</a>
+            <a href="/contact">Contact</a>
+        </div>
+        <div class="search d-flex align-items-center">
+            <form class="d-flex" action="/search" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Search for products..." aria-label="Search"
+                    name="q">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="nav">
+            {% if is_admin %}
+            <a href="/manageproduct">Manage Product</a>
+            {% endif %}
+            {% if logged_in %}
+            <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                    class="bi bi-cart-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                </svg></a>
+            <a href="/" onclick="logout()">Logout</a>
+            {% else %}
+            <a href="/register">Register</a>
+            <a href="/login">Login</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Selamat Datang di Laptopku!</h1>
+            <p class="col-md-8 fs-4">Nikmati belanja produk berkualitas dengan harga terbaik.
+                Belanja sekarang dan dapatkan laptop keinginan Anda!</p>
+            <a href="/shop" class="shop-now" id="button"><b>Mulai Belanja</b></a>
+        </div>
+    </div>
+
+    <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+            <div class="h-100 p-5 text-bg-dark rounded-3">
+                <h2>Change the background</h2>
+                <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look.
+                    Then, mix and match with additional component themes and more.</p>
+                <button class="btn btn-outline-light" type="button">Example button</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

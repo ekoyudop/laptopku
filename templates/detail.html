@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptopku | Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header img {
+            height: 50px;
+            /* Adjust the height as needed */
+        }
+
+        .header .nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .header .search {
+            flex-grow: 1;
+            margin: 0 20px;
+        }
+
+        .header .search input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .header .contact {
+            color: #f26522;
+            font-weight: bold;
+        }
+
+        .banner {
+            background-color: #fdfdfd;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .banner h1 {
+            font-size: 36px;
+            color: #f26522;
+        }
+
+        .banner p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .banner .shop-now {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #f26522;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .banner .shop-now:hover {
+            background-color: #e5541a;
+        }
+
+        .shop-now {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #f26522;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .shop-now:hover {
+            background-color: #e5541a;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        .page-width {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-gap: 20px;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        .md\:grid-cols-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .product-single-media {
+            background: #f6f6f6;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .product-image img {
+            width: 100%;
+            max-width: 500px;
+            /* Adjusted for a more reasonable size */
+        }
+
+        .more-view-thumbnail {
+            display: grid;
+            gap: 10px;
+        }
+
+        .more-view-thumbnail img {
+            width: 100%;
+            max-width: 100px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .product-single-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .product-single-sku {
+            color: #888;
+        }
+
+        .specification {
+            margin-top: 10px;
+        }
+
+        .specification ul {
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .specification ul li {
+            margin-bottom: 5px;
+        }
+
+        .form-field-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .field-wrapper input {
+            width: 50px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .add-to-cart .button {
+            display: block;
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .add-to-cart .button:hover {
+            background-color: #444;
+        }
+
+        .variant-container {
+            margin-top: 20px;
+        }
+
+        .variant-option-list {
+            display: flex;
+            gap: 10px;
+        }
+
+        .variant-option-list li {
+            list-style-type: none;
+        }
+
+        .variant-option-list li a {
+            display: block;
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            color: #000;
+            text-align: center;
+            border-radius: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .variant-option-list li a:hover {
+            background-color: #ddd;
+        }
+
+        .product-description {
+            margin-top: 20px;
+        }
+
+        .product-description p {
+            margin-bottom: 10px;
+        }
+
+        #myCarousel {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script>
+        function logout() {
+            $.removeCookie('mytoken');
+            alert('You have been logged out!')
+            window.location.href = '/'
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <img src="/static/logo.png" alt="Laptopku Logo">
+        <div class="nav w-20">
+            <a href="/">Home</a>
+            <a href="/shop">Shop</a>
+            <a href="/contact">Contact</a>
+        </div>
+        <div class="search d-flex align-items-center">
+            <form class="d-flex" action="/search" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Search for products..." aria-label="Search"
+                    name="q">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="nav">
+            {% if is_admin %}
+            <a href="/manageproduct">Manage Product</a>
+            {% endif %}
+            {% if logged_in %}
+            <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                    class="bi bi-cart-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                </svg></a>
+            <a href="/logout">Logout</a>
+            {% else %}
+            <a href="/register">Register</a>
+            <a href="/login">Login</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="product-page-middle page-width mt-3">
+        <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="/static/product_pics/{{info_product.image}}" width="560" height="315"
+                            style="object-fit: contain;" class="d-block w-100" alt="Slide 1">
+                    </div>
+                    <div class="carousel-item">
+                        {{info_product.link | safe}}
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange"
+                            class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                            <path
+                                d="m3.86 7.247 5.482-4.796c.646-.566 1.658-.106 1.658.753v9.298a1 1 0 0 1-1.659.753l-5.48-4.796a1 1 0 0 1 0-1.506z" />
+                        </svg>
+                    </span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange"
+                            class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                            <path
+                                d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                        </svg>
+                    </span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+            </div>
+            <div class="">
+                <div class="flex flex-col gap-1">
+                    <h1 class="product-single-name">{{info_product.product_name}}</h1>
+                    <h4 class="product-single-price">
+                        <div><span class="sale-price">Rp{{info_product.product_price}}</span></div>
+                    </h4>
+                    <br>
+                    <h5>Stock : {{info_product.product_stock}} </h5>
+                </div>
+                <form id="productForm" action="/api/cart/mine/items" method="POST"><input type="hidden" name="sku"
+                        value="NJC48508-Black-X">
+                    <div class="">
+                        <div class="add-to-cart mt-2">
+                            <div style="width:8rem">
+                                <div class="form-field-container null">
+                                    <div class="field-wrapper flex flex-grow"><input type="text" name="qty"
+                                            placeholder="Qty" value="1">
+                                        <div class="field-border"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <form id="productForm" action="/api/cart/mine/items" method="POST">
+                                <input type="hidden" name="product_id" value="{{info_product._id}}">
+                                <input type="hidden" name="product_name" value="{{info_product.product_name}}">
+                                <input type="hidden" name="product_price" value="{{info_product.product_price}}">
+                                <input type="hidden" name="product_image" value="{{info_product.image}}">
+                                <input type="hidden" name="qty" value="1">
+                                <button type="submit" class="shop-now"><span>ADD TO CART</span></button>
+                            </form>
+                        </div>
+                    </div>
+                </form>
+                <div class="mt-2 md:mt-3">
+                    <div class="product-description">
+                        <div class="ck-content">
+                            <div>
+                                <p>{{info_product.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
